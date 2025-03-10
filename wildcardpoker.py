@@ -90,4 +90,57 @@ def run_command(command, output_file):
         print(f"[✔] Output saved to {output_file}")
 
 def run_nuclei(input_file, output_file):
-    pass
+    """Run Nuclei on the input file and save output."""
+    command = f"nuclei -l {input_file} -o {output_file}"
+    run_command(command, output_file)
+
+def main():
+    console.print(LOGO)
+    console.print("[cyan][*] Starting Wildcard Subdomain Scanner...[/cyan]\n")
+
+    # Step 1: Check for prerequisites
+    console.print("[cyan][*] Checking prerequisites...[/cyan]")
+    check_python_libraries()
+    check_go_installation()
+    check_external_tools()
+
+    # Step 2: Get the target domain
+    target_domain = input("Enter the target domain to scan (e.g., example.com): ").strip()
+    if not target_domain:
+        console.print(f"{RED}[ERROR]{RESET} No domain provided. Exiting...")
+        sys.exit(1)
+
+    # Step 3: Create project folder
+    project_folder = create_folder()
+
+    # Step 4: Run Subfinder
+    subfinder_output = os.path.join(project_folder, "subfinder_output.txt")
+    run_command(f"subfinder -d {target_domain} -all", subfinder_output)
+
+    # Step 5: Run Assetfinder
+    assetfinder_output = os.path.join(project_folder, "assetfinder_output.txt")
+    run_command(f"assetfinder --subs-only {target_domain}", assetfinder_output)
+
+    # Step 6: Combine results (merge subdomains)
+    merged_output = os.path.join(project_folder, "merged_subdomains.txt")
+    with open(merged_output, "w") as merged_file:
+        with open(subfinder_output, "r") as sf_file, open(assetfinder_output, "r") as af_file:
+            merged_file.writelines(set(sf_file.readlines() + af_file.readlines()))
+    console.print(f"[green][✔]{RESET} Merged subdomains saved to {merged_output}")
+
+    # Step 7: Run HTTPX
+    httpx_output = os.path.join(project_folder, "httpx_results.txt")
+    run_command(f"httpx -l {merged_output} -silent -status-code", httpx_output)
+
+    # Step 8: Run Subzy
+    subzy_output = os.path.join(project_folder, "subzy_vulnerable.txt")
+    run_command(f"subzy run --targets {merged_output}", subzy_output)
+
+    # Step 9: Run Nuclei
+    nuclei_output = os.path.join(project_folder, "nuclei_results.txt")
+    run_nuclei(merged_output, nuclei_output)
+
+    console.print("[green][✔] Scan complete! All results are saved in the project folder.[/green]")
+
+if __name__ == "__main__":
+    main()
