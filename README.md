@@ -13,7 +13,7 @@ Organized Output: Saves results into structured files for analysis.
 Installation
 1.Clone this respitory:
 git clone https://github.com/Arbatinis1/wildcard-poker.git
-cd yourrepository
+cd wildcard-poker
 
 2.Install Python dependencies:
 pip install -r requirements.txt
@@ -23,7 +23,7 @@ Usage
 Run the script by executing the following command:
 
 bash
-python wildcard.py
+python3 wildcardpoker.py
 The script will:
 
 Check and install missing dependencies.
