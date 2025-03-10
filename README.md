@@ -12,7 +12,7 @@ Organized Output: Saves results into structured files for analysis.
 
 Installation
 1.Clone this respitory:
-git clone https://github.com/yourusername/yourrepository.git
+git clone https://github.com/Arbatinis1/wildcard-poker.git
 cd yourrepository
 
 2.Install Python dependencies:
