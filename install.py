@@ -57,7 +57,7 @@ from rich.console import Console
 console = Console()
 
 def run_command(command):
-    """Run a command and show output in real-time."""
+    # Run a command and show output in real-time.
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     for line in process.stdout:
         print(line.strip())
