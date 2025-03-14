@@ -14,7 +14,7 @@ Installation
 1.Clone this respitory:
 git clone https://github.com/Arbatinis1/wildcard-poker.git
 cd wildcard-poker
-run python3 install.py this will install all required tools and dependencies to run this script
+run python3 wildcardpokerfix.py this will install all required tools and dependencies to run this script
 
 2.Install Python dependencies:
 pip install -r requirements.txt
@@ -24,7 +24,7 @@ Usage
 Run the script by executing the following command:
 
 bash
-python3 wildcardpoker.py
+python3 wildcardpokerfix.py
 The script will:
 
 Check and install missing dependencies.
